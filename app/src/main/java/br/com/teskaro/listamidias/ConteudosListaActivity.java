@@ -16,8 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.teskaro.listamidias.adapter.ConteudoArrayAdapter;
+import br.com.teskaro.listamidias.adapter.MidiaArrayAdapter;
 import br.com.teskaro.listamidias.dao.ConteudoDao;
+import br.com.teskaro.listamidias.dao.MidiaDao;
 import br.com.teskaro.listamidias.model.Conteudo;
+import br.com.teskaro.listamidias.model.Midia;
 
 public class ConteudosListaActivity extends AppCompatActivity {
 
@@ -34,24 +37,17 @@ public class ConteudosListaActivity extends AppCompatActivity {
             this.idMidia = intentRecebida.getIntExtra("idMidia",0);
         }
 
-        // dados
-        List<Conteudo> conteudos = new ConteudoDao(this).listarPorIdMidia(this.idMidia);
-
-        // adaptador
-        final ConteudoArrayAdapter adaptadorConteudo = new ConteudoArrayAdapter(this,R.layout.conteudo_item,conteudos);
-
         // lista
         ListView ltvConteudo = findViewById(R.id.ltvListaConteudo);
-        ltvConteudo.setAdapter(adaptadorConteudo);
 
         // editar
         ltvConteudo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                Conteudo conteudo = adaptadorConteudo.getItem(i);
+                Conteudo conteudo = (Conteudo) adapterView.getItemAtPosition(i);
                 Intent abrirTelaCadastro = new Intent(ConteudosListaActivity.this, ConteudoDetalheActivity.class);
-                abrirTelaCadastro.putExtra("id",conteudo.getId());
+                abrirTelaCadastro.putExtra("idConteudo",conteudo.getId());
                 startActivity(abrirTelaCadastro);
             }
         });
@@ -66,5 +62,23 @@ public class ConteudosListaActivity extends AppCompatActivity {
                 startActivity(abrirTelaCadastro);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        criarListaConteudos();
+    }
+
+    private void criarListaConteudos(){
+        // dados
+        List<Conteudo> conteudos = new ConteudoDao(this).listar();
+
+        // adaptador
+        final ConteudoArrayAdapter adaptador = new ConteudoArrayAdapter(this,R.layout.conteudo_item,conteudos);
+
+        // lista
+        ListView ltv = findViewById(R.id.ltvListaConteudo);
+        ltv.setAdapter(adaptador);
     }
 }

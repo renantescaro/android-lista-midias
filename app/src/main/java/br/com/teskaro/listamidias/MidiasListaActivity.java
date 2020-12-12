@@ -13,8 +13,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.teskaro.listamidias.adapter.ConteudoArrayAdapter;
 import br.com.teskaro.listamidias.adapter.MidiaArrayAdapter;
+import br.com.teskaro.listamidias.dao.ConteudoDao;
 import br.com.teskaro.listamidias.dao.MidiaDao;
+import br.com.teskaro.listamidias.model.Conteudo;
 import br.com.teskaro.listamidias.model.Midia;
 
 public class MidiasListaActivity extends AppCompatActivity {
@@ -24,22 +27,16 @@ public class MidiasListaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_midias);
 
-        // dados
-        List<Midia> midias = new MidiaDao(this).listar();
-
-        // adaptador
-        MidiaArrayAdapter adaptador = new MidiaArrayAdapter(this,R.layout.midia_item,midias);
-
         // lista
         ListView ltv = findViewById(R.id.ltvListaMidia);
-        ltv.setAdapter(adaptador);
 
         // seleciona midia
         ltv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Midia midia = (Midia) adapterView.getItemAtPosition(i);
                 Intent abrirTelaConteudos = new Intent(MidiasListaActivity.this, ConteudosListaActivity.class);
-                abrirTelaConteudos.putExtra("idMidia",Integer.toString(i));
+                abrirTelaConteudos.putExtra("idMidia",midia.getId());
                 startActivity(abrirTelaConteudos);
             }
         });
@@ -53,5 +50,23 @@ public class MidiasListaActivity extends AppCompatActivity {
                 startActivity(abrirTelaCadastro);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        criarListaMidias();
+    }
+
+    private void criarListaMidias(){
+        // dados
+        List<Midia> midias = new MidiaDao(this).listar();
+
+        // adaptador
+        final MidiaArrayAdapter adaptador = new MidiaArrayAdapter(this,R.layout.midia_item,midias);
+
+        // lista
+        ListView ltv = findViewById(R.id.ltvListaMidia);
+        ltv.setAdapter(adaptador);
     }
 }

@@ -29,6 +29,7 @@ public class MidiaDetalheActivity extends AppCompatActivity {
             int idMidia = intentRecebida.getIntExtra ("idMidia",0);
         }
 
+        // salvar
         Button btnSalvar = findViewById(R.id.btnSalvar);
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +52,9 @@ public class MidiaDetalheActivity extends AppCompatActivity {
                     edtNome.setText("");
                     edtDescricao.setText("");
                 }
+
+                finish();
+                return;
             }
         });
 

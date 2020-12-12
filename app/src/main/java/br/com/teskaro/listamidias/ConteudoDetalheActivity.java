@@ -26,10 +26,10 @@ public class ConteudoDetalheActivity extends AppCompatActivity {
         Button btnExcluir = findViewById(R.id.btnExcluir);
         Button btnSalvar = findViewById(R.id.btnSalvar);
 
-        // ID CONTEUDO
+        // idConteudo, para edição
         Intent intentRecebida = getIntent();
-        if(intentRecebida.hasExtra("id")){
-            this.idConteudo = intentRecebida.getIntExtra("id",0);
+        if(intentRecebida.hasExtra("idConteudo")){
+            this.idConteudo = intentRecebida.getIntExtra("idConteudo",0);
 
             if(this.idConteudo!=0){
                 Conteudo conteudo = new ConteudoDao(this).selecionarPorId(this.idConteudo);
@@ -45,14 +45,14 @@ public class ConteudoDetalheActivity extends AppCompatActivity {
             }
         }
 
-        // ID MIDIA
+        // idMidia para relacionamento
         if(intentRecebida.hasExtra("idMidia")){
             this.idMidia = intentRecebida.getIntExtra("idMidia",0);
         }
 
-        // parametro não recebido - update
-        else{
-            btnExcluir.setVisibility(View.GONE);
+        // novo conteudo oculta botão excluir
+        if(this.idConteudo==0){
+            btnExcluir.setVisibility(View.INVISIBLE);
         }
 
         // salvar
@@ -85,10 +85,14 @@ public class ConteudoDetalheActivity extends AppCompatActivity {
                     edtDescricao.setText("");
                     edtNota.setText("");
                 }
+
+                finish();
+                return;
             }
         });
 
 
+        // excluir
         btnExcluir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,6 +109,9 @@ public class ConteudoDetalheActivity extends AppCompatActivity {
                 }else{
                     Toast.makeText(ConteudoDetalheActivity.this, "Erro ao excluir!", Toast.LENGTH_SHORT).show();
                 }
+
+                finish();
+                return;
             }
         });
     }
