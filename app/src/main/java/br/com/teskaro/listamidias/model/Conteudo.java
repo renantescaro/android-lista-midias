@@ -1,4 +1,4 @@
-package br.com.teskaro.listamidias;
+package br.com.teskaro.listamidias.model;
 
 public class Conteudo {
     private int id;

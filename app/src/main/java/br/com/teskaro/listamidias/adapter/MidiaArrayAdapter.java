@@ -1,4 +1,4 @@
-package br.com.teskaro.listamidias;
+package br.com.teskaro.listamidias.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,42 +9,42 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import java.util.List;
 
-public class ConteudoArrayAdapter extends ArrayAdapter<Conteudo> {
+import br.com.teskaro.listamidias.R;
+import br.com.teskaro.listamidias.model.Midia;
+
+public class MidiaArrayAdapter extends ArrayAdapter<Midia> {
     private LayoutInflater inflater;
     private int layout;
 
-    public ConteudoArrayAdapter(Activity activity, int layout, List<Conteudo> itens){
+    public MidiaArrayAdapter(Activity activity, int layout, List<Midia> itens){
         super(activity,layout,itens);
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.layout = layout;
     }
 
     public View getView(int posicao, View item, ViewGroup lista) {
-        ViewHolderConteudo holder;
+        ViewHolder holder;
 
         // primeira vez chamando
         if(item == null){
             item   = inflater.inflate(layout,null);
-            holder = new ViewHolderConteudo();
+            holder = new ViewHolder();
             holder.txvNome      = item.findViewById(R.id.txvNome);
             holder.txvDescricao = item.findViewById(R.id.txvDescricao);
-            holder.txvNota      = item.findViewById(R.id.txvNota);
             item.setTag(holder);
         }else{
-            holder = (ViewHolderConteudo) item.getTag();
+            holder = (ViewHolder) item.getTag();
         }
 
-        Conteudo conteudo = getItem(posicao);
-        holder.txvNome.setText(conteudo.getNome());
-        holder.txvDescricao.setText(conteudo.getDescricao());
-        holder.txvNota.setText(String.valueOf(conteudo.getNota()));
+        Midia midia = getItem(posicao);
+        holder.txvNome.setText(midia.getNome());
+        holder.txvDescricao.setText(midia.getDescricao());
 
         return item;
     }
 
-    static class ViewHolderConteudo{
+    static class ViewHolder{
         private TextView txvNome;
         private TextView txvDescricao;
-        private TextView txvNota;
     }
 }

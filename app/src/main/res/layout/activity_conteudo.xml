@@ -12,7 +12,7 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:text="Cadastro de Mídia"
+        android:text="Cadastro de Conteudo"
         android:textAlignment="center"
         android:textSize="24sp" />
 
@@ -45,6 +45,21 @@
         android:textAlignment="center"
         android:ems="10"
         android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:text="Nota"
+        android:textAlignment="center" />
+
+    <EditText
+        android:id="@+id/edtNota"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textAlignment="center"
+        android:ems="10"
+        android:inputType="number" />
 
     <Button
         android:id="@+id/btnSalvar"

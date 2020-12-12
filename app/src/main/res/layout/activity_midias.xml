@@ -4,16 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ConteudosListaActivity">
+    tools:context=".MidiasListaActivity">
 
     <ListView
+        android:id="@+id/ltvListaMidia"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/ltvListaConteudo">
-    </ListView>
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp"></ListView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabConteudo"
+        android:id="@+id/fabMidia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
