@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DbHelper extends SQLiteOpenHelper {
 
-    private static final int BD_VERSAO  = 1;
+    private static final int BD_VERSAO  = 3;
     private static final String BD_NOME = "listasdemidias.db";
 
     public DbHelper(Context context) {
@@ -25,12 +25,23 @@ public class DbHelper extends SQLiteOpenHelper {
                 Contract.ConteudoEntry._ID + " INTEGER PRIMARY KEY, " +
                 Contract.ConteudoEntry.COLUNA_NOME + " TEXT NOT NULL, "+
                 Contract.ConteudoEntry.COLUNA_DESCRICAO + " TEXT NOT NULL, " +
-                Contract.ConteudoEntry.COLUNA_NOTA + " INTEGER) ";
+                Contract.ConteudoEntry.COLUNA_ID_MIDIA + " INTEGER, " +
+                "FOREIGN KEY(" + Contract.ConteudoEntry.COLUNA_ID_MIDIA + ") REFERENCES "+Contract.MidiaEntry.TABELA_NOME+"("+Contract.MidiaEntry._ID+") )";
         sqLiteDatabase.execSQL(sqlTabelaContatos);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int versaoAntiga, int versaoNova) {
+        String sqlApagarTabelaContatos = "DROP TABLE "+Contract.ConteudoEntry.TABELA_NOME ;
+        sqLiteDatabase.execSQL(sqlApagarTabelaContatos);
 
+        String sqlTabelaContatos = "CREATE TABLE " + Contract.ConteudoEntry.TABELA_NOME + "("+
+                Contract.ConteudoEntry._ID + " INTEGER PRIMARY KEY, " +
+                Contract.ConteudoEntry.COLUNA_NOME + " TEXT NOT NULL, "+
+                Contract.ConteudoEntry.COLUNA_DESCRICAO + " TEXT NOT NULL, " +
+                Contract.ConteudoEntry.COLUNA_NOTA + " TEXT NOT NULL, " +
+                Contract.ConteudoEntry.COLUNA_ID_MIDIA + " INTEGER, " +
+                "FOREIGN KEY(" + Contract.ConteudoEntry.COLUNA_ID_MIDIA + ") REFERENCES "+Contract.MidiaEntry.TABELA_NOME+"("+Contract.MidiaEntry._ID+") )";
+        sqLiteDatabase.execSQL(sqlTabelaContatos);
     }
 }

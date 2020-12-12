@@ -34,16 +34,17 @@ public class MidiasListaActivity extends AppCompatActivity {
         ListView ltv = findViewById(R.id.ltvListaMidia);
         ltv.setAdapter(adaptador);
 
-        // click item
+        // seleciona midia
         ltv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent abrirTelaConteudos = new Intent(MidiasListaActivity.this, ConteudosListaActivity.class);
-                abrirTelaConteudos.putExtra("id",Integer.toString(i));
+                abrirTelaConteudos.putExtra("idMidia",Integer.toString(i));
                 startActivity(abrirTelaConteudos);
             }
         });
 
+        // nova midia
         FloatingActionButton fabMidia = findViewById(R.id.fabMidia);
         fabMidia.setOnClickListener(new View.OnClickListener() {
             @Override

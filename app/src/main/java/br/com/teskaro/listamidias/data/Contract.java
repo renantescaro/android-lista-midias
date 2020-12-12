@@ -16,5 +16,6 @@ public class Contract {
         public static final String COLUNA_NOME      = "nome";
         public static final String COLUNA_DESCRICAO = "descricao";
         public static final String COLUNA_NOTA      = "nota";
+        public static final String COLUNA_ID_MIDIA  = "id_midia";
     }
 }

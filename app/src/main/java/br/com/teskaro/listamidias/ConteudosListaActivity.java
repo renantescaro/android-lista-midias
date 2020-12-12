@@ -21,37 +21,48 @@ import br.com.teskaro.listamidias.model.Conteudo;
 
 public class ConteudosListaActivity extends AppCompatActivity {
 
+    private int idMidia = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conteudos);
 
+        // midia dos conteudos atuais
+        Intent intentRecebida = getIntent();
+        if(intentRecebida.hasExtra("idMidia")){
+            this.idMidia = intentRecebida.getIntExtra("idMidia",0);
+        }
+
         // dados
-        List<Conteudo> conteudos = new ConteudoDao(this).listar();
+        List<Conteudo> conteudos = new ConteudoDao(this).listarPorIdMidia(this.idMidia);
 
         // adaptador
-        ConteudoArrayAdapter adaptadorConteudo = new ConteudoArrayAdapter(this,R.layout.conteudo_item,conteudos);
+        final ConteudoArrayAdapter adaptadorConteudo = new ConteudoArrayAdapter(this,R.layout.conteudo_item,conteudos);
 
         // lista
         ListView ltvConteudo = findViewById(R.id.ltvListaConteudo);
         ltvConteudo.setAdapter(adaptadorConteudo);
 
-        // click item
+        // editar
         ltvConteudo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                Conteudo conteudo = adaptadorConteudo.getItem(i);
                 Intent abrirTelaCadastro = new Intent(ConteudosListaActivity.this, ConteudoDetalheActivity.class);
-                abrirTelaCadastro.putExtra("id",1);
+                abrirTelaCadastro.putExtra("id",conteudo.getId());
                 startActivity(abrirTelaCadastro);
             }
         });
 
+        // novo
         FloatingActionButton fabConteudo = findViewById(R.id.fabConteudo);
         fabConteudo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent abrirTelaCadastro = new Intent(ConteudosListaActivity.this, ConteudoDetalheActivity.class);
+                abrirTelaCadastro.putExtra("idMidia",ConteudosListaActivity.this.idMidia);
                 startActivity(abrirTelaCadastro);
             }
         });

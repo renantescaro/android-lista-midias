@@ -25,6 +25,7 @@ public class ConteudoDao {
         values.put(Contract.ConteudoEntry.COLUNA_NOME,conteudo.getNome());
         values.put(Contract.ConteudoEntry.COLUNA_DESCRICAO,conteudo.getDescricao());
         values.put(Contract.ConteudoEntry.COLUNA_NOTA,conteudo.getNota());
+        values.put(Contract.ConteudoEntry.COLUNA_ID_MIDIA,conteudo.getIdMidia());
 
         bd.insert(Contract.ConteudoEntry.TABELA_NOME,null,values);
     }
@@ -42,10 +43,10 @@ public class ConteudoDao {
                 new String[]{String.valueOf(conteudo.getId())});
     }
 
-    public void excluir(Conteudo conteudo){
+    public void excluir(int id){
         bd.delete(Contract.ConteudoEntry.TABELA_NOME,
                 Contract.ConteudoEntry._ID+"=?",
-                new String[]{String.valueOf(conteudo.getId())});
+                new String[]{String.valueOf(id)});
     }
 
     public List<Conteudo> listar(){
@@ -53,7 +54,9 @@ public class ConteudoDao {
 
         String[] colunas = {Contract.ConteudoEntry._ID,
                 Contract.ConteudoEntry.COLUNA_NOME,
-                Contract.ConteudoEntry.COLUNA_DESCRICAO};
+                Contract.ConteudoEntry.COLUNA_DESCRICAO,
+                Contract.ConteudoEntry.COLUNA_NOTA,
+                Contract.ConteudoEntry.COLUNA_ID_MIDIA};
 
         Cursor cursor = bd.query(Contract.ConteudoEntry.TABELA_NOME, colunas,
                 null,
@@ -70,6 +73,8 @@ public class ConteudoDao {
                 conteudo.setId(cursor.getInt(0));
                 conteudo.setNome(cursor.getString(1));
                 conteudo.setDescricao(cursor.getString(2));
+                conteudo.setNota(cursor.getInt(3));
+                conteudo.setIdMidia(cursor.getInt(4));
                 conteudos.add(conteudo);
             }while (cursor.moveToNext());
         }
@@ -81,9 +86,10 @@ public class ConteudoDao {
 
         if(id > 0){
             String[] colunas = {Contract.ConteudoEntry._ID,
-                    Contract.ConteudoEntry.TABELA_NOME,
+                    Contract.ConteudoEntry.COLUNA_NOME,
                     Contract.ConteudoEntry.COLUNA_DESCRICAO,
-                    Contract.ConteudoEntry.COLUNA_NOTA,};
+                    Contract.ConteudoEntry.COLUNA_NOTA,
+                    Contract.ConteudoEntry.COLUNA_ID_MIDIA};
 
             Cursor cursor = bd.query(Contract.ConteudoEntry.TABELA_NOME, colunas,
                     Contract.ConteudoEntry._ID+"=?",
@@ -99,8 +105,41 @@ public class ConteudoDao {
                 conteudo.setNome(cursor.getString(1));
                 conteudo.setDescricao(cursor.getString(2));
                 conteudo.setNota(cursor.getInt(3));
+                conteudo.setIdMidia(cursor.getInt(4));
             }
         }
         return conteudo;
+    }
+
+    public List<Conteudo> listarPorIdMidia(int idMidia){
+        List<Conteudo> conteudos = new ArrayList<>();
+
+        String[] colunas = {Contract.ConteudoEntry._ID,
+                Contract.ConteudoEntry.COLUNA_NOME,
+                Contract.ConteudoEntry.COLUNA_DESCRICAO,
+                Contract.ConteudoEntry.COLUNA_NOTA,
+                Contract.ConteudoEntry.COLUNA_ID_MIDIA};
+
+        Cursor cursor = bd.query(Contract.ConteudoEntry.TABELA_NOME, colunas,
+                Contract.ConteudoEntry.COLUNA_ID_MIDIA+"=?",
+                new String[]{String.valueOf(idMidia)},
+                null,
+                null,
+                Contract.ConteudoEntry.COLUNA_NOME + " ASC");
+
+        // se tiver dados, cria list com o objeto
+        if(cursor.getCount() > 0){
+            cursor.moveToFirst();
+            do {
+                Conteudo conteudo = new Conteudo();
+                conteudo.setId(cursor.getInt(0));
+                conteudo.setNome(cursor.getString(1));
+                conteudo.setDescricao(cursor.getString(2));
+                conteudo.setNota(cursor.getInt(3));
+                conteudo.setIdMidia(cursor.getInt(4));
+                conteudos.add(conteudo);
+            }while (cursor.moveToNext());
+        }
+        return conteudos;
     }
 }

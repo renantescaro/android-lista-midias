@@ -5,14 +5,16 @@ public class Conteudo {
     private String nome;
     private String descricao;
     private int nota;
+    private int idMidia;
 
     public Conteudo(){}
 
-    public Conteudo(int id, String nome, String descricao, int nota){
+    public Conteudo(int id, String nome, String descricao, int nota,int idMidia){
         this.id        = id;
         this.nome      = nome;
         this.descricao = descricao;
         this.nota      = nota;
+        this.idMidia   = idMidia;
     }
 
     public int getId() {
@@ -46,4 +48,8 @@ public class Conteudo {
     public void setNota(int nota) {
         this.nota = nota;
     }
+
+    public int getIdMidia() { return idMidia; }
+
+    public void setIdMidia(int idMidia) { this.idMidia = idMidia; }
 }
